@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Dirt&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+
+
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Red Hat Text';
+}
+
+#btn_menu {
+    font-size: 12pt;
+    transition: color 0.5s, transform 0.5s, font-weight 0.5s; 
+    color: black;
+}
+
+#btn_menu:hover {
+    color: rgb(81, 38, 2);
+    transform: scale(1.1); 
+    font-weight: bold;
+}
+
+#ImagenMadera {
+    width: 100%;
+    height: 300px;
+    background-image: url('/fondo.jpg');
+    background-size: cover;
+    background-position: start;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 90%;
+}
+
+.texto-responsivo {
+    color: white;
+    font-size: 1.1rem;  /* Usamos rem para un tamaño relativo */
+    text-align: justify;
+    font-family: 'Inria Sans';
+    margin: 0;
+    padding: 0 10px;
+}
+
+@media (max-width: 768px) {
+    .texto-responsivo {
+        font-size: 1rem; /* Reduce el tamaño de la fuente para pantallas más pequeñas */
+    }
+}
+
+@media (max-width: 480px) {
+    .texto-responsivo {
+        font-size: 0.9rem; /* Aún más pequeño para dispositivos muy pequeños */
+    }
+}
+
+#ImagenMadera2{
+    width: 100%;
+    height: 30px;
+    background-image: url('/fondo.jpg');
+    background-size: cover;
+    background-position: start;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 90%;
+}
+
+
+.card {
+    width: 18rem;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Para el efecto suave */
+  }
+
+  .card:hover {
+    transform: scale(1.05); /* Aumenta un poco el tamaño */
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
+  }
+
+
+.catalog-scroll {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 1rem;
+    scroll-behavior: smooth;
+  }
+
+  .catalog-scroll::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .catalog-scroll::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+  }
+
+  .card-producto {
+    min-width: 220px;
+    max-width: 220px;
+    flex: 0 0 auto;
+    border-radius: 10px;
+    scroll-snap-align: start;
+    transition: transform 0.2s ease;
+  }
+
+  .card-producto:hover {
+    transform: scale(1.03);
+  }
+
+  .card-producto img {
+    height: 150px;
+    object-fit: cover;
+  }
+
+  @media (max-width: 576px) {
+    .card-producto {
+      min-width: 80%;
+    }
+  }
