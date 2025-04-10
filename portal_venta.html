@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PORTAL Venta</title>
+    <link rel="stylesheet" href="estilos.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="fw-bold fs-3 text-dark text-center mb-5 mt-3">Selecciona tu pedido</div>
+
+    <form action="guardar_ticket.php" method="POST" onsubmit="return prepararEnvio()" target="_self">
+        <div id="productos-lista" class="container">
+          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      
+            <!-- Producto 1 -->
+            <div class="col">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                  <h5 class="card-title">Madera de Pino de 1ra y 2da</h5>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="producto1" data-precio="120" onchange="calcularTotal()">
+                    <label class="form-check-label text-success" for="producto1">$120.00</label>
+                    <input type="number" class="form-control mt-2" id="cantidad1" min="1" value="1" onchange="calcularTotal()">
+                  </div>
+                </div>
+              </div>
+            </div>
+      
+            <!-- Producto 2 -->
+            <div class="col">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                  <h5 class="card-title">Encino</h5>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="producto2" data-precio="250" onchange="calcularTotal()">
+                    <label class="form-check-label text-success" for="producto2">$250.00</label>
+                    <input type="number" class="form-control mt-2" id="cantidad2" min="1" value="1" onchange="calcularTotal()">
+                  </div>
+                </div>
+              </div>
+            </div>
+      
+            <!-- Producto 3 -->
+            <div class="col">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                  <h5 class="card-title">Caoba</h5>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="producto3" data-precio="280" onchange="calcularTotal()">
+                    <label class="form-check-label text-success" for="producto3">$280.00</label>
+                    <input type="number" class="form-control mt-2" id="cantidad3" min="1" value="1" onchange="calcularTotal()">
+                  </div>
+                </div>
+              </div>
+            </div>
+      
+            <!-- Producto 4 -->
+            <div class="col">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                  <h5 class="card-title">Triplay 6mm</h5>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="producto4" data-precio="150" onchange="calcularTotal()">
+                    <label class="form-check-label text-success" for="producto4">$150.00</label>
+                    <input type="number" class="form-control mt-2" id="cantidad4" min="1" value="1" onchange="calcularTotal()">
+                  </div>
+                </div>
+              </div>
+            </div>
+      
+            <!-- Producto 5 -->
+            <div class="col">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                  <h5 class="card-title">Triplay 12mm</h5>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="producto5" data-precio="240" onchange="calcularTotal()">
+                    <label class="form-check-label text-success" for="producto5">$240.00</label>
+                    <input type="number" class="form-control mt-2" id="cantidad5" min="1" value="1" onchange="calcularTotal()">
+                  </div>
+                </div>
+              </div>
+            </div>
+      
+            <!-- Producto 6 -->
+            <div class="col">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                  <h5 class="card-title">Triplay 18mm</h5>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="producto6" data-precio="320" onchange="calcularTotal()">
+                    <label class="form-check-label text-success" for="producto6">$320.00</label>
+                    <input type="number" class="form-control mt-2" id="cantidad6" min="1" value="1" onchange="calcularTotal()">
+                  </div>
+                </div>
+              </div>
+            </div>
+      
+            <!-- Producto 7 -->
+            <div class="col">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                  <h5 class="card-title">MDF Crudo</h5>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="producto7" data-precio="190" onchange="calcularTotal()">
+                    <label class="form-check-label text-success" for="producto7">$190.00</label>
+                    <input type="number" class="form-control mt-2" id="cantidad7" min="1" value="1" onchange="calcularTotal()">
+                  </div>
+                </div>
+              </div>
+            </div>
+      
+            <!-- Producto 8 -->
+            <div class="col">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                  <h5 class="card-title">MDF Enchapado</h5>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="producto8" data-precio="220" onchange="calcularTotal()">
+                    <label class="form-check-label text-success" for="producto8">$220.00</label>
+                    <input type="number" class="form-control mt-2" id="cantidad8" min="1" value="1" onchange="calcularTotal()">
+                  </div>
+                </div>
+              </div>
+            </div>
+      
+            <!-- Producto 9 -->
+            <div class="col">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                  <h5 class="card-title">MDF Marino</h5>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="producto9" data-precio="350" onchange="calcularTotal()">
+                    <label class="form-check-label text-success" for="producto9">$350.00</label>
+                    <input type="number" class="form-control mt-2" id="cantidad9" min="1" value="1" onchange="calcularTotal()">
+                  </div>
+                </div>
+              </div>
+            </div>
+      
+            <!-- Producto 10 -->
+            <div class="col">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                  <h5 class="card-title">Vigas de pino</h5>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="producto10" data-precio="180" onchange="calcularTotal()">
+                    <label class="form-check-label text-success" for="producto10">$180.00</label>
+                    <input type="number" class="form-control mt-2" id="cantidad10" min="1" value="1" onchange="calcularTotal()">
+                  </div>
+                </div>
+              </div>
+            </div>
+      
+            <!-- Producto 11 -->
+            <div class="col">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                  <h5 class="card-title">Polines</h5>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="producto11" data-precio="140" onchange="calcularTotal()">
+                    <label class="form-check-label text-success" for="producto11">$140.00</label>
+                    <input type="number" class="form-control mt-2" id="cantidad11" min="1" value="1" onchange="calcularTotal()">
+                  </div>
+                </div>
+              </div>
+            </div>
+      
+            <!-- Producto 12 -->
+            <div class="col">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                  <h5 class="card-title">Tablas rústicas</h5>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="producto12" data-precio="160" onchange="calcularTotal()">
+                    <label class="form-check-label text-success" for="producto12">$160.00</label>
+                    <input type="number" class="form-control mt-2" id="cantidad12" min="1" value="1" onchange="calcularTotal()">
+                  </div>
+                </div>
+              </div>
+            </div>
+      
+          </div>
+        </div>
+      
+        <!-- Mostrar total -->
+        <p class="mt-4 fs-5 text-center fw-bold text-success">Total: <span id="total">0</span> MXN</p>
+      
+        <!-- Campos ocultos -->
+        <input type="hidden" name="productos" id="productosSeleccionados">
+        <input type="hidden" name="total" id="totalFinal">
+      
+        <!-- Botón enviar -->
+        <div class="text-center">
+            <button class="btn btn-primary mt-3 bg-dark border-0" type="submit">Generar Nota de Remisión</button>
+          </div>
+      </form>
+      
+  
+    <script>
+        function calcularTotal() {
+            const checkboxes = document.querySelectorAll('.form-check-input');
+            let total = 0;
+          
+            checkboxes.forEach(cb => {
+              if (cb.checked) {
+                const id = cb.id.replace("producto", "");
+                const cantidad = parseInt(document.getElementById("cantidad" + id)?.value || 1);
+                const precio = parseFloat(cb.dataset.precio);
+                total += precio * cantidad;
+              }
+            });
+          
+            document.getElementById("total").innerText = total.toFixed(2);
+          }
+  
+          function prepararEnvio() {
+            const nombresProductos = {
+                1: "Madera de Pino de 1ra y 2da",
+                2: "Encino",
+                3: "Caoba",
+                4: "Triplay 6mm",
+                5: "Triplay 12mm",
+                6: "Triplay 18mm",
+                7: "MDF Crudo",
+                8: "MDF Enchapado",
+                9: "MDF Marino",
+                10: "Vigas de pino",
+                11: "Polines",
+                12: "Tablas rústicas"
+              };
+
+              // Obtener la fecha y hora actual en formato ddmmaahhmm
+            const fecha = new Date();
+            const dd = String(fecha.getDate()).padStart(2, '0');
+            const mm = String(fecha.getMonth() + 1).padStart(2, '0');
+            const aa = fecha.getFullYear().toString().slice(-2); // últimos dos dígitos del año
+            const hh = String(fecha.getHours()).padStart(2, '0');
+            const min = String(fecha.getMinutes()).padStart(2, '0');
+
+        
+            const seleccionados = [];
+            let contenido = "Nota de remisión: "+dd+mm+aa+hh+min+"\n\n";
+            let total = 0;
+        
+            for (let i = 1; i <= 12; i++) {
+                const check = document.getElementById("producto" + i);
+                const cantidadInput = document.getElementById("cantidad" + i);
+                if (check && check.checked) {
+                    const precio = parseFloat(check.dataset.precio);
+                    const cantidad = parseInt(cantidadInput?.value || 1);
+                    const subtotal = precio * cantidad;
+                    total += subtotal;
+        
+                    seleccionados.push({
+                        id: check.id,
+                        cantidad,
+                        precio
+                    });
+        
+                    contenido += `${nombresProductos[i]}: ${cantidad} x $${precio} = $${subtotal}\n`;
+                }
+            }
+        
+            contenido += `\nTOTAL: $${total.toFixed(2)}`;
+        
+            
+        
+            const nombreArchivo = `${dd}${mm}${aa}${hh}${min}.txt`;
+        
+            // Guardar nota como archivo con el nombre generado
+            const blob = new Blob([contenido], { type: 'text/plain' });
+            const enlace = document.createElement('a');
+            enlace.href = URL.createObjectURL(blob);
+            enlace.download = nombreArchivo;
+            enlace.click();
+        
+            // Enviar datos al backend
+            document.getElementById("productosSeleccionados").value = JSON.stringify(seleccionados);
+            document.getElementById("totalFinal").value = total.toFixed(2);
+        
+            return true; // deja que el formulario se envíe
+        }
+        
+        
+        
+        function generarNota() {
+            let contenido = "Nota de remisión\n\n";
+            let total = 0;
+        
+            for (let i = 1; i <= 12; i++) {
+            const check = document.getElementById("producto" + i);
+            const cant = document.getElementById("cantidad" + i).value;
+        
+            if (check.checked) {
+                const precio = parseFloat(check.dataset.precio);
+                const subtotal = precio * cant;
+                total += subtotal;
+                contenido += `Producto ${i}: ${cant} x $${precio} = $${subtotal}\n`;
+            }
+            }
+      
+        contenido += `\nTOTAL: $${total}`;
+      
+        const blob = new Blob([contenido], { type: 'text/plain' });
+        const enlace = document.createElement('a');
+        enlace.href = URL.createObjectURL(blob);
+        enlace.download = "nota_remision.txt";
+        enlace.click();
+      }
+      window.onload = calcularTotal;
+    </script>
+</body>
+</html>

@@ -12,7 +12,9 @@
 
 #btn_menu {
     font-size: 12pt;
-    transition: color 0.5s, transform 0.5s, font-weight 0.5s; 
+    transition: color 0.5s;
+    transform: 0.5s;
+    font-weight: 0.5s; 
     color: black;
 }
 
@@ -85,4 +87,15 @@
     .card-producto {
       min-width: 80%;
     }
+  }
+
+
+  .product-card img {
+    border-radius: 1rem;
+    object-fit: cover;
+    height: 200px;
+    width: 100%;
+  }
+  .card-body {
+    text-align: center;
   }
