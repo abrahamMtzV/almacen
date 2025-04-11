@@ -99,3 +99,13 @@
   .card-body {
     text-align: center;
   }
+
+
+#btn_form{
+    transition: 0.2s;
+  }
+  #btn_form:hover{
+      background-color: aliceblue;
+      color: black;
+      transition: 0.3s;
+  }
