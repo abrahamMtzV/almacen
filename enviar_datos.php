@@ -97,7 +97,7 @@ if ($todo_bien) {
     echo "<p class='fs-5'>Nota de remisión: <strong>$nota_remision</strong></p>";
     echo "<ul class='list-group list-group-flush'>";
     foreach ($productos_a_vender as $p) {
-        echo "<li class='list-group-item'>{$p['producto']}: <strong>{$p['cantidad']}</strong> piezas por <strong>$" . number_format($p['total'], 2) . " MXN</strong></li>";
+        echo "<li class='list-group-item'>{$p['prodcto']}: <strong>{$p['cantidad']}</strong> piezas por <strong>$" . number_format($p['total'], 2) . " MXN</strong></li>";
     }
     echo "</ul></div></div>";
     echo "<a href='index.html' class='btn btn-dark'>Volver al inicio</a>";
