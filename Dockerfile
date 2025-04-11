@@ -1,14 +1,10 @@
-# Usa una imagen oficial de PHP con Apache
-FROM php:8.1-apache
+FROM php:8.2-apache
 
-# Habilita extensiones necesarias
-RUN docker-php-ext-install mysqli pdo pdo_mysql
+RUN apt-get update && apt-get install -y libpq-dev \
+    && docker-php-ext-install pgsql pdo_pgsql
 
-# Copia el contenido de tu carpeta 'public' al directorio de Apache
-COPY public/ /var/www/html/
+COPY . /var/www/html/
 
-# Da permisos
-RUN chown -R www-data:www-data /var/www/html/
-
-# Habilita el módulo de reescritura (opcional si usas .htaccess)
 RUN a2enmod rewrite
+
+EXPOSE 80

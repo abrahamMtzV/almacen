@@ -15,17 +15,17 @@
 <div class="container mt-5">
 
 <?php
-// Conexión MySQL (ajusta los datos según tu configuración)
-$host = 'localhost';
-$dbname = 'almacen';
+$host = 'dpg-cvsn13ndiees73fka790-a';
+$port = '5432';
+$dbname = 'almacen_vc7a';
 $username = 'root';
-$password = ''; // usualmente en XAMPP no hay contraseña
+$password = 'TmOZtEO2VQKk33HCTZYOtjtfPsSOPLlY';
 
-try {
-    $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Error de conexión: " . $e->getMessage());
+$conn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$password");
+
+if (!$conn) {
+    echo "Error al conectar a PostgreSQL.";
+    exit;
 }
 
 // Obtener productos del formulario
