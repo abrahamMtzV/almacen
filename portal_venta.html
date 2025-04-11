@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PORTAL Venta</title>
+    <title>Registrar venta</title>
     <link rel="stylesheet" href="estilos.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
@@ -11,7 +11,7 @@
 <body>
     <div class="fw-bold fs-3 text-dark text-center mb-5 mt-3">Selecciona tu pedido</div>
 
-    <form action="guardar_ticket.php" method="POST" onsubmit="return prepararEnvio()" target="_self">
+    <form action="guardar_ticket.php" method="POST" onsubmit="prepararEnvio(event)">
         <div id="productos-lista" class="container">
           <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
       
@@ -190,8 +190,8 @@
         <p class="mt-4 fs-5 text-center fw-bold text-success">Total: <span id="total">0</span> MXN</p>
       
         <!-- Campos ocultos -->
-        <input type="hidden" name="productos" id="productosSeleccionados">
-        <input type="hidden" name="total" id="totalFinal">
+        <input type="hidden" name="contenido" id="contenidoTicket">
+        <input type="hidden" name="nombreArchivo" id="nombreArchivoTicket">
       
         <!-- Botón enviar -->
         <div class="text-center">
@@ -199,119 +199,121 @@
           </div>
       </form>
       
-  
-    <script>
+      <script>
+        // Mueve nombresProductos fuera de la función para que sea accesible globalmente
+        const nombresProductos = {
+            1: "Madera de Pino de 1ra y 2da",
+            2: "Encino",
+            3: "Caoba",
+            4: "Triplay 6mm",
+            5: "Triplay 12mm",
+            6: "Triplay 18mm",
+            7: "MDF Crudo",
+            8: "MDF Enchapado",
+            9: "MDF Marino",
+            10: "Vigas de pino",
+            11: "Polines",
+            12: "Tablas rústicas"
+        };
+    
         function calcularTotal() {
             const checkboxes = document.querySelectorAll('.form-check-input');
             let total = 0;
-          
+    
             checkboxes.forEach(cb => {
-              if (cb.checked) {
-                const id = cb.id.replace("producto", "");
-                const cantidad = parseInt(document.getElementById("cantidad" + id)?.value || 1);
-                const precio = parseFloat(cb.dataset.precio);
-                total += precio * cantidad;
-              }
+                if (cb.checked) {
+                    const id = cb.id.replace("producto", "");
+                    const cantidad = parseInt(document.getElementById("cantidad" + id)?.value || 1);
+                    const precio = parseFloat(cb.dataset.precio);
+                    total += precio * cantidad;
+                }
             });
-          
+    
             document.getElementById("total").innerText = total.toFixed(2);
-          }
-  
-          function prepararEnvio() {
-            const nombresProductos = {
-                1: "Madera de Pino de 1ra y 2da",
-                2: "Encino",
-                3: "Caoba",
-                4: "Triplay 6mm",
-                5: "Triplay 12mm",
-                6: "Triplay 18mm",
-                7: "MDF Crudo",
-                8: "MDF Enchapado",
-                9: "MDF Marino",
-                10: "Vigas de pino",
-                11: "Polines",
-                12: "Tablas rústicas"
-              };
-
-              // Obtener la fecha y hora actual en formato ddmmaahhmm
+            return total;
+        }
+    
+        function prepararEnvio(event) {
+            event.preventDefault();
+            
             const fecha = new Date();
             const dd = String(fecha.getDate()).padStart(2, '0');
             const mm = String(fecha.getMonth() + 1).padStart(2, '0');
-            const aa = fecha.getFullYear().toString().slice(-2); // últimos dos dígitos del año
+            const aa = String(fecha.getFullYear()).slice(-2);
             const hh = String(fecha.getHours()).padStart(2, '0');
             const min = String(fecha.getMinutes()).padStart(2, '0');
-
-        
-            const seleccionados = [];
-            let contenido = "Nota de remisión: "+dd+mm+aa+hh+min+"\n\n";
+            
+            const nombreArchivo = `nota_${dd}${mm}${aa}${hh}${min}.txt`;
+            
+            let contenido = `Nota de remisión: ${dd}${mm}${aa}${hh}${min}\n\n`;
+            
             let total = 0;
-        
+            
             for (let i = 1; i <= 12; i++) {
                 const check = document.getElementById("producto" + i);
-                const cantidadInput = document.getElementById("cantidad" + i);
                 if (check && check.checked) {
+                    const cantidad = parseInt(document.getElementById("cantidad" + i)?.value || 1);
                     const precio = parseFloat(check.dataset.precio);
-                    const cantidad = parseInt(cantidadInput?.value || 1);
                     const subtotal = precio * cantidad;
                     total += subtotal;
-        
-                    seleccionados.push({
-                        id: check.id,
-                        cantidad,
-                        precio
-                    });
-        
                     contenido += `${nombresProductos[i]}: ${cantidad} x $${precio} = $${subtotal}\n`;
                 }
             }
-        
+            
             contenido += `\nTOTAL: $${total.toFixed(2)}`;
         
-            
-        
-            const nombreArchivo = `${dd}${mm}${aa}${hh}${min}.txt`;
-        
-            // Guardar nota como archivo con el nombre generado
-            const blob = new Blob([contenido], { type: 'text/plain' });
-            const enlace = document.createElement('a');
-            enlace.href = URL.createObjectURL(blob);
-            enlace.download = nombreArchivo;
-            enlace.click();
-        
-            // Enviar datos al backend
-            document.getElementById("productosSeleccionados").value = JSON.stringify(seleccionados);
-            document.getElementById("totalFinal").value = total.toFixed(2);
-        
-            return true; // deja que el formulario se envíe
+            // Opción 1: Usar el método fetch (recomendado)
+            fetch('guardar_ticket.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({ contenido, nombreArchivo })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta del servidor');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    alert('Nota generada correctamente.');
+                    descargarArchivo(contenido, nombreArchivo);
+                } else if (data.message === 'El archivo ya existe') {
+                    alert('El archivo ya existe. No se generará una nueva nota.');
+                } else {
+                    alert(`Error: ${data.message}`);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Ocurrió un error al generar la nota. Por favor intenta nuevamente.');
+            });
         }
-        
-        
-        
-        function generarNota() {
-            let contenido = "Nota de remisión\n\n";
-            let total = 0;
-        
-            for (let i = 1; i <= 12; i++) {
-            const check = document.getElementById("producto" + i);
-            const cant = document.getElementById("cantidad" + i).value;
-        
-            if (check.checked) {
-                const precio = parseFloat(check.dataset.precio);
-                const subtotal = precio * cant;
-                total += subtotal;
-                contenido += `Producto ${i}: ${cant} x $${precio} = $${subtotal}\n`;
-            }
-            }
-      
-        contenido += `\nTOTAL: $${total}`;
-      
-        const blob = new Blob([contenido], { type: 'text/plain' });
-        const enlace = document.createElement('a');
-        enlace.href = URL.createObjectURL(blob);
-        enlace.download = "nota_remision.txt";
-        enlace.click();
-      }
-      window.onload = calcularTotal;
+    
+        function descargarArchivo(contenido, nombreArchivo) {
+            const blob = new Blob([contenido], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = nombreArchivo;
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 100);
+        }
+    
+        // Inicialización - Conecta el manejador de eventos
+        window.onload = function() {
+            calcularTotal();
+            // Elimina el onsubmit del formulario HTML y usa este en su lugar
+            document.querySelector('form').addEventListener('submit', prepararEnvio);
+        };
     </script>
+    
+
+
 </body>
 </html>

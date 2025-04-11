@@ -1,34 +1,40 @@
 <?php
-// Ruta donde se guardarán los archivos
-$carpeta = 'tickets/';
+file_put_contents('debug.log', print_r($_POST, true) . "\n", FILE_APPEND);
+header('Content-Type: application/json');
 
-// Verificar si se recibió la información correctamente
-if (isset($_POST['contenido']) && isset($_POST['nombreArchivo'])) {
-    $contenido = $_POST['contenido'];
-    $nombreArchivo = $_POST['nombreArchivo'];
+// Obtener datos del POST (de ambas formas posibles)
+$data = json_decode(file_get_contents('php://input'), true) ?: $_POST;
+$contenido = $data['contenido'] ?? '';
+$nombreArchivo = $data['nombreArchivo'] ?? '';
 
-    // Asegúrate de que la carpeta "tickets" exista
-    if (!file_exists($carpeta)) {
-        if (!mkdir($carpeta, 0777, true)) {
-            // Si no se pudo crear la carpeta, enviar error
-            echo json_encode(['success' => false, 'message' => 'No se pudo crear la carpeta "tickets".']);
-            exit;
-        }
-    }
-
-    // Crear la ruta completa del archivo
-    $rutaArchivo = $carpeta . $nombreArchivo;
-
-    // Intentar guardar el archivo
-    if (file_put_contents($rutaArchivo, $contenido)) {
-        // Respuesta exitosa
-        echo json_encode(['success' => true]);
-    } else {
-        // Si hay un error al guardar el archivo
-        echo json_encode(['success' => false, 'message' => 'Error al guardar el archivo en la carpeta "tickets".']);
-    }
-} else {
-    // Si faltan datos
-    echo json_encode(['success' => false, 'message' => 'Datos incompletos.']);
+// Validación básica
+if (empty($contenido) {
+    echo json_encode(['success' => false, 'message' => 'El contenido está vacío']);
+    exit;
 }
-?>
+
+// Asegurar que el nombre termine en .txt
+if (!preg_match('/\.txt$/i', $nombreArchivo)) {
+    $nombreArchivo .= '.txt';
+}
+
+// Crear directorio si no existe
+if (!file_exists('tickets') && !mkdir('tickets', 0755, true)) {
+    echo json_encode(['success' => false, 'message' => 'No se pudo crear la carpeta tickets']);
+    exit;
+}
+
+// Guardar archivo (sobreescribe si ya existe)
+$ruta = 'tickets/' . $nombreArchivo;
+if (file_put_contents($ruta, $contenido) === false) {
+    echo json_encode(['success' => false, 'message' => 'Error al guardar el archivo']);
+    exit;
+}
+
+// Éxito
+echo json_encode([
+    'success' => true,
+    'message' => 'Nota guardada correctamente',
+    'archivo' => $nombreArchivo,
+    'ruta' => $ruta
+]);
